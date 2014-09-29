@@ -1,0 +1,37 @@
+.container-fluid {
+  /* Remove extra padding required when mixing grid and fluid layout.
+   * See https://github.com/twbs/bootstrap/commit/f660bd42052949124a2c3342dadcdb12fd979f02
+   */
+  padding: 0 15px;
+}
+
+a.language {
+  /* Override Bootstrap' handling of in-navbar <a> tags. */
+  display: inline !important;
+  padding: 0 !important;
+}
+
+.navbar-inner {
+  background-color: #fafafa;
+  background-image: -moz-linear-gradient(top, #fff, #f2f2f2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #fff, #f2f2f2);
+  background-image: -o-linear-gradient(top, #fff, #f2f2f2);
+  background-image: linear-gradient(to bottom, #fff, #f2f2f2);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+  background-repeat: repeat-x;
+  border: 1px solid  #d4d4d4;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+ -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.form-login {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Cette page n'existe pas</h1>
+<p>Apparemment la page que vous cherchez n'existe pas ici.</p>
+<p>
+    Il est possible que vous ayez suivi un lien mort à partir d'une page de ce
+    site. Si c'est effectivement le cas, merci d'indiquer où trouver le lien à
+    l'équipe de contact,
+    <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.
+</p>
+{% endblock %}

@@ -1,0 +1,13 @@
+# Import main requirements
+-r requirements.txt
+
+django-factory_boy
+
+# For doc
+Sphinx
+sphinx_rtd_theme
+
+# For tests
+coverage
+unittest-xml-reporting
+pylint

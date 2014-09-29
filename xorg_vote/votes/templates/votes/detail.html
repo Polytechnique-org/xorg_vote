@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ vote.shortdesc }}</h1>
+
+<p>{{ vote.description }}</p>
+
+{% if vote.opened %}
+  {% if user_has_voted %}
+    <p>
+      <strong>Votre vote a été pris en compte.</strong>
+      Les résultats seront disponibles sur cette page une fois que le vote sera clos.
+    </p>
+  {% else %}
+    <form action="{% url 'vote' vote.id %}" method="post">
+      {% csrf_token %}
+      <table class="table table-bordered table-hover table-striped">
+        {% for choice in vote.choice_set.all %}
+        <tr>
+          <td>
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.text }}</label>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p><strong>Attention : un vote est définitif et ne peut pas être changé après appui sur le bouton ci-dessous !</strong></p>
+      <input type="submit" value="Vote">
+    </form>
+  {% endif %}
+{% else %}
+  <p>Le vote est clos. {{ vote.num_votes }} personne{{ vote.num_votes|pluralize }} ont voté. Résultat :</p>
+  <table class="table table-bordered table-hover table-striped">
+    {% for choice in vote.list_sorted_choices %}
+    <tr>
+      <td class="col-sm-2">{{ choice.num_votes }} ({{ choice.percent_votes }}%)</td>
+      <td class="col-sm-10">{{ choice.text }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+<p><a href="{% url 'index' %}">Retour à la liste des votes</a></p>
+
+{% endblock content %}

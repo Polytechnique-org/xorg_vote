@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if votes_list %}
+<ul>
+  <h2>Votes disponibles</h2>
+  <table class="table table-bordered table-hover table-striped">
+    <tr>
+      <th>Nom</th>
+      <th>Ouvert ou clos</th>
+      <th>A voté ?</th>
+      <th>Date d'ouverture</th>
+    </tr>
+    {% for vote in votes_list %}
+    <tr>
+      <td><a href="{% url 'detail' vote.id %}">{{ vote.shortdesc }}</a></td>
+      <td>{% if vote.opened %}ouvert{% else %}clos{% endif %}</td>
+      <td>{% if vote.user_has_voted %}a voté{% else %}n'a pas voté{% endif %}
+      <td>{{ vote.pub_date }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</ul>
+{% else %}
+<p>Aucun vote n'est disponible.</p>
+{% endif %}
+{% endblock content %}
