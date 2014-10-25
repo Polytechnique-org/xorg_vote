@@ -11,5 +11,10 @@ class Command(base.NoArgsCommand):
     help = "Load a demo, standard database."
 
     def handle_noargs(self, **kwargs):
-        for i in range(7):
+        for i in range(3):
+            vote = vote_testing.ExampleVoteFactory.create()
+            vote.shortdesc += " (closed)"
+            vote.opened = False
+            vote.save()
+        for i in range(3):
             vote_testing.ExampleVoteFactory.create()
