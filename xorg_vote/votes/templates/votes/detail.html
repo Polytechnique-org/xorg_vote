@@ -33,7 +33,7 @@
   <table class="table table-bordered table-hover table-striped">
     {% for choice in vote.list_sorted_choices %}
     <tr>
-      <td class="col-sm-2">{{ choice.num_votes }} ({{ choice.percent_votes }}%)</td>
+      <td class="col-sm-2">{{ choice.num_votes }} ({{ choice.percent_votes|floatformat:-2 }}%)</td>
       <td class="col-sm-10">{{ choice.text }}</td>
     </tr>
     {% endfor %}
