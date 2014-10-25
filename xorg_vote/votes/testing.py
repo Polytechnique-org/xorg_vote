@@ -3,6 +3,7 @@
 # This software is distributed under the GPLv3+ license.
 
 import datetime 
+from django.utils import timezone
 import factory
 import factory.django
 
@@ -36,7 +37,7 @@ class ExampleVoteFactory(factory.django.DjangoModelFactory):
 
     # The vote was published an hour ago
     pub_date = factory.LazyAttribute(
-        lambda o: datetime.datetime.utcnow() - datetime.timedelta(hours=1))
+        lambda o: timezone.now() - datetime.timedelta(hours=1))
     opened = True
 
     @classmethod
