@@ -118,7 +118,8 @@ LOGIN_REDIRECT_URL = '/'
 
 AUTHGROUPEX_KEY = config.get('authgroupex.key', '')
 AUTHGROUPEX_FIELDS = ('username', 'firstname', 'lastname', 'forlife', 'perms', 'grpauth')
-AUTHGROUPEX_SUPERADMIN_PERMS = ('admin',)
+AUTHGROUPEX_SUPERADMIN_PERMS = ('admin', 'grpadmin')
+AUTHGROUPEX_STAFF_PERMS = ('grpmember',)
 AUTHGROUPEX_RETURN_URL = '/xorgauth/'
 AUTHGROUPEX_GROUP = 'polytechnique.org'
 
