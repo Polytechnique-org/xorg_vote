@@ -3,6 +3,7 @@
 # This software is distributed under the GPLv3+ license.
 
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -18,7 +19,11 @@ class IndexView(generic.ListView):
     context_object_name = 'votes_list'
 
     def get_queryset(self):
-        votes = Vote.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
+        votes_filter = Vote.objects.filter(pub_date__lte=timezone.now())
+        # Filter out restricted votes for non-staff users
+        if not self.request.user.is_staff:
+            votes_filter = votes_filter.filter(restricted=False)
+        votes = votes_filter.order_by('-pub_date')
         for v in votes:
             v.user_has_voted = v.has_voted(self.request.user)
         return votes
@@ -46,6 +51,8 @@ class VoteOkView(generic.DetailView):
 
 def vote(request, vote_id):
     vote = get_object_or_404(Vote, pk=vote_id)
+    if vote.restricted and not request.user.is_staff:
+        raise PermissionDenied()
     if vote.has_voted(request.user):
         return render(request, 'xorg_vote/detail.html', {
             'vote': vote,

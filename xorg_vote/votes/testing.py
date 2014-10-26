@@ -39,6 +39,7 @@ class ExampleVoteFactory(factory.django.DjangoModelFactory):
     pub_date = factory.LazyAttribute(
         lambda o: timezone.now() - datetime.timedelta(hours=1))
     opened = True
+    restricted = factory.Sequence(lambda n: (n % 2) == 0)
 
     @classmethod
     def _create(cls, model_class, *args, **kwargs):

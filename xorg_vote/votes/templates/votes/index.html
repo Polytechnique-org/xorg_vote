@@ -20,6 +20,10 @@
 {% endfor %}
 </table>
 {% else %}
-<p>Aucun vote n'est disponible.</p>
+<p>Aucun vote n'est disponible.
+{% if not user.is_staff %}
+N'étant pas membre du groupe, certains votes peuvent vous être inaccessibles.
+{% endif %}
+</p>
 {% endif %}
 {% endblock content %}

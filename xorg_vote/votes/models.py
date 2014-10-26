@@ -15,6 +15,8 @@ class Vote(models.Model):
     description = models.TextField()
     pub_date = models.DateTimeField('date published')
     opened = models.BooleanField(default=True)
+    restricted = models.BooleanField(default=True)
+    restricted.verbose_name = 'Restreint au groupe'
 
     def __str__(self):
         return self.description
