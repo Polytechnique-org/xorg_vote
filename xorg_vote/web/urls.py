@@ -30,7 +30,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url(r'^$', login_required(xorg_vote.votes.views.IndexView.as_view()), name='index'),
     url(r'^(?P<pk>\d+)/$', login_required(xorg_vote.votes.views.DetailView.as_view()), name='detail'),
-    url(r'^(?P<vote_id>\d+)/vote/$', login_required(xorg_vote.votes.views.vote), name='vote'),
+    url(r'^(?P<pk>\d+)/vote/$', login_required(xorg_vote.votes.views.VoteView.as_view()), name='vote'),
     url(r'^(?P<pk>\d+)/ok/$', login_required(xorg_vote.votes.views.VoteOkView.as_view()), name='vote_ok'),
     url(r'^(?P<pk>\d+)/close/$', login_required(xorg_vote.votes.views.VoteCloseView.as_view()), name='vote_close'),
 )

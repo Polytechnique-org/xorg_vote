@@ -3,6 +3,7 @@
 # This software is distributed under the GPLv3+ license.
 
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -49,27 +50,30 @@ class VoteOkView(generic.DetailView):
     template_name = 'votes/vote_ok.html'
 
 
-def vote(request, vote_id):
-    vote = get_object_or_404(Vote, pk=vote_id)
-    if vote.restricted and not request.user.is_staff:
-        raise PermissionDenied()
-    if vote.has_voted(request.user):
-        return render(request, 'xorg_vote/detail.html', {
-            'vote': vote,
-            'user_has_voted': True,
-            'error_message': "Vous avez déjà voté.",
-        })
-    try:
-        selected_choice = vote.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        return render(request, 'votes/detail.html', {
-            'vote': vote,
-            'error_message': "Aucun choix n'a été sélectionné.",
-        })
-    else:
-        selected_choice.user_votes.add(request.user)
-        selected_choice.save()
-        return HttpResponseRedirect(reverse('vote_ok', args=(vote.id,)))
+class VoteView(generic.DetailView):
+    model = Vote
+    template_name = 'votes/detail.html'
+
+    def post(self, request, *args, **kwargs):
+        vote = get_object_or_404(Vote, pk=kwargs.get('pk'))
+
+        # Deny non-staff users from voting to restricted votes
+        if vote.restricted and not request.user.is_staff:
+            raise PermissionDenied()
+
+        # Check wether the user has already voted
+        if vote.has_voted(request.user):
+            messages.error(request, "Vous avez déjà voté.")
+            return HttpResponseRedirect(reverse('detail', args=(vote.id,)))
+        try:
+            selected_choice = vote.choice_set.get(pk=request.POST['choice'])
+        except (KeyError, Choice.DoesNotExist):
+            messages.error(request, "Aucun choix n'a été sélectionné.")
+            return HttpResponseRedirect(reverse('detail', args=(vote.id,)))
+        else:
+            selected_choice.user_votes.add(request.user)
+            selected_choice.save()
+            return HttpResponseRedirect(reverse('vote_ok', args=(vote.id,)))
 
 
 class VoteCloseView(generic.DetailView):
