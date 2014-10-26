@@ -30,6 +30,14 @@
       <input type="submit" class="btn btn-primary" value="Vote">
     </form>
   {% endif %}
+
+  {% if user.is_superuser %}
+    <hr>
+    <p>En tant qu'administrateur vous pouvez fermer le vote en cliquant sur ce bouton :
+      <a href="{% url 'vote_close' vote.id %}" class="btn btn-primary">Fermer le vote</a>
+    </form>
+  {% endif %}
+
 {% else %}
   <p>Le vote est clos. {{ vote.num_votes }} personne{{ vote.num_votes|pluralize }} ont voté. Résultat :</p>
   <table class="table table-bordered table-hover table-striped">

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ vote.shortdesc }}</h1>
+
+<p>Êtes-vous certains de bien vouloir fermer ce vote ?
+Après cela, il ne pourra pas être ré-ouvert par cette interface.
+</p>
+
+<form action="{% url 'vote_close' vote.id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-primary" value="Oui, fermer ce vote">
+</form>
+
+<hr>
+
+<p><a href="{% url 'detail' vote.id %}">Revenir au vote</a></p>
+
+{% endblock content %}

@@ -2,10 +2,12 @@
 # Copyright (c) 2014 Polytechnique.org
 # This software is distributed under the GPLv3+ license.
 
+from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views import generic
 
 from xorg_vote.votes.models import Choice, Vote
@@ -61,3 +63,18 @@ def vote(request, vote_id):
         selected_choice.user_votes.add(request.user)
         selected_choice.save()
         return HttpResponseRedirect(reverse('vote_ok', args=(vote.id,)))
+
+
+class VoteCloseView(generic.DetailView):
+    model = Vote
+    template_name = 'votes/vote_close.html'
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, request, *args, **kwargs):
+        return super(VoteCloseView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        vote = get_object_or_404(Vote, pk=kwargs.get('pk'))
+        vote.opened = False
+        vote.save()
+        return HttpResponseRedirect(reverse('detail', args=(vote.id,)))
