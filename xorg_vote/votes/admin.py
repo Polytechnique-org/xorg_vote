@@ -15,7 +15,7 @@ class ChoiceInline(admin.TabularInline):
 class VoteAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['shortdesc', 'description', 'opened', 'restricted']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Date', {'fields': ['pub_date']}),
     ]
     inlines = [ChoiceInline]
     list_display = ('shortdesc', 'pub_date', 'num_votes', 'opened', 'restricted')

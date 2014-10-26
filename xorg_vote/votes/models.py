@@ -11,24 +11,25 @@ from django.db import models
 @python_2_unicode_compatible
 class Vote(models.Model):
     shortdesc = models.CharField(max_length=500)
-    shortdesc.short_description = 'Short description'
+    shortdesc.verbose_name = "Nom du vote"
     description = models.TextField()
     pub_date = models.DateTimeField('date published')
+    pub_date.verbose_name = "Date d'ouverture"
     opened = models.BooleanField(default=True)
+    opened.verbose_name = "Ouvert"
     restricted = models.BooleanField(default=True)
-    restricted.verbose_name = 'Restreint au groupe'
+    restricted.verbose_name = "Restreint au groupe"
 
     def __str__(self):
-        return self.description
+        return self.shortdesc
 
     def num_votes(self):
         return sum(c.num_votes() for c in self.choice_set.iterator())
-    num_votes.short_description = 'Number of votes'
+    num_votes.short_description = "Nombre de votes"
 
     def list_sorted_choices(self):
         choices = self.choice_set.all()
         return sorted(choices, key=lambda c: -c.num_votes())
-    list_sorted_choices.short_description = 'List choices'
 
     def has_voted(self, user):
         """Return whether a user has already voted"""
@@ -39,6 +40,7 @@ class Vote(models.Model):
 class Choice(models.Model):
     vote = models.ForeignKey(Vote)
     text = models.CharField(max_length=500)
+    text.verbose_name = "Texte"
     user_votes = models.ManyToManyField(User)
 
     def __str__(self):
