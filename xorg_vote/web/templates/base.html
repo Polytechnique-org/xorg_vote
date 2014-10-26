@@ -26,6 +26,9 @@
           <form class="navbar-form pull-right" action="{% url 'logout' %}">
             <input class="btn btn-primary" type="submit" value="Se déconnecter">
           </form>
+          {% if user.is_superuser %}
+          <a class="btn btn-primary navbar-btn pull-right" href="{% url 'admin:index' %}">Administration</a>
+          {% endif %}
         </div>
       </div>
     </div>
