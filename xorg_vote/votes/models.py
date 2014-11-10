@@ -50,4 +50,7 @@ class Choice(models.Model):
         return self.user_votes.count()
 
     def percent_votes(self):
-        return 100. * float(self.user_votes.count()) / float(self.vote.num_votes())
+        num_votes = self.vote.num_votes()
+        if num_votes == 0:
+            return 0.
+        return 100. * float(self.user_votes.count()) / float(num_votes)
