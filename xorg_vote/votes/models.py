@@ -2,13 +2,11 @@
 # Copyright (c) 2014 Polytechnique.org
 # This software is distributed under the GPLv3+ license.
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.auth.models import User
 from django.db import models
 
 
-@python_2_unicode_compatible
 class Vote(models.Model):
     shortdesc = models.CharField(max_length=500)
     shortdesc.verbose_name = "Nom du vote"
@@ -36,9 +34,8 @@ class Vote(models.Model):
         return user.choice_set.filter(vote=self).exists()
 
 
-@python_2_unicode_compatible
 class Choice(models.Model):
-    vote = models.ForeignKey(Vote)
+    vote = models.ForeignKey(Vote, on_delete=models.CASCADE)
     text = models.CharField(max_length=500)
     text.verbose_name = "Texte"
     user_votes = models.ManyToManyField(User)

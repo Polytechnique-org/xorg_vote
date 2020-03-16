@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container">
-  <form action="{% url 'authgroupex:login' %}" method="get" class="form-login" role="form">
+  <form action="{% url 'oidc_authentication_init' %}" method="get" class="form-login" role="form">
     <input type="hidden" name="next" value="{% url 'index' %}">
     <h3>Déconnexion réussie</h3>
     <input class="btn btn-primary btn-block" type="submit" value="Se reconnecter">
