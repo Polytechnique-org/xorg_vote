@@ -3,7 +3,9 @@
 # This software is distributed under the GPLv3+ license.
 
 from django.conf import settings
-from django.views import generic
+from django.contrib.auth import logout
+from django.shortcuts import render
+from django.views import View, generic
 
 
 class LoginView(generic.TemplateView):
@@ -14,3 +16,10 @@ class LoginView(generic.TemplateView):
         next_url = ctxt.get('next') or self.request.GET.get('next') or settings.LOGIN_REDIRECT_URL
         ctxt.update({'next': next_url})
         return ctxt
+
+class LogoutView(View):
+    template_name = 'logout.html'
+
+    def get(self, request):
+        response = logout(request)
+        return render(response, self.template_name)
