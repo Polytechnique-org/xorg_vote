@@ -17,7 +17,7 @@ admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'oidc/', include('mozilla_django_oidc.urls')),
+    path('oidc/', include('mozilla_django_oidc.urls')),
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('login/', xorg_vote.web.views.LoginView.as_view(), name='login'),

@@ -116,6 +116,7 @@ LOGIN_REDIRECT_URL = '/'
 
 # XorgAuth settings
 # The OpenID Connect callback URL is /oidc/callback/ (relative to this website)
+# Response type: "code (Authorization Code Flow)"
 OIDC_OP_AUTHORIZATION_ENDPOINT = config.getstr('xorgauth.authorization_endpoint', 'https://auth.polytechnique.org/openid/authorize/')
 OIDC_OP_TOKEN_ENDPOINT = config.getstr('xorgauth.token_endpoint', 'https://auth.polytechnique.org/openid/token/')
 OIDC_OP_USER_ENDPOINT = config.getstr('xorgauth.user_endpoint', 'https://auth.polytechnique.org/openid/userinfo')
@@ -123,7 +124,7 @@ OIDC_RP_CLIENT_ID = config.getstr('xorgauth.client_id')
 OIDC_RP_CLIENT_SECRET = config.getstr('xorgauth.client_secret')
 OIDC_RP_SCOPES = "openid profile xorg_groups"
 OIDC_RP_SIGN_ALGO = "HS256"
-XORGAUTH_REQUIRED_GROUP = 'polytechnique.org'
+XORGAUTH_REQUIRED_GROUP = config.getstr('xorgauth.required_group', 'polytechnique.org')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
