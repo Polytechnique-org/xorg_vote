@@ -125,6 +125,7 @@ OIDC_RP_CLIENT_SECRET = config.getstr('xorgauth.client_secret')
 OIDC_RP_SCOPES = "openid profile xorg_groups"
 OIDC_RP_SIGN_ALGO = "HS256"
 XORGAUTH_REQUIRED_GROUP = config.getstr('xorgauth.required_group', 'polytechnique.org')
+XORGAUTH_WHITELISTED_USERS = config.getlist('xorgauth.whitelisted_users', [])
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

@@ -12,11 +12,16 @@ class XorgAuthenticationBackend(OIDCAuthenticationBackend):
         logger.info("Verifying claims %r", claims)
         # Verify that the required group is in xorg_groups
         xorg_groups = claims.get("x_groups")
-        if not xorg_groups:
+        forlife = claims.get("sub")
+        if not xorg_groups or not forlife:
             return False
         result = settings.XORGAUTH_REQUIRED_GROUP in xorg_groups
         if not result:
             logger.info("Failed to verify claims %r (expecting group %r)", claims, settings.XORGAUTH_REQUIRED_GROUP)
+            print(repr(settings.XORGAUTH_WHITELISTED_USERS))
+            if forlife in settings.XORGAUTH_WHITELISTED_USERS:
+                logger.info("... but user has been whitelisted")
+                result = True
         return result
 
     def create_user(self, claims):
